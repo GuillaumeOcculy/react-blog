@@ -6,8 +6,8 @@ import About from "./pages/About";
 function App() {
   return (
     <Router>
-      <div class="ui inverted segment">
-        <div class="ui inverted secondary menu container">
+      <div className="ui inverted segment">
+        <div className="ui inverted secondary menu container">
           <Link to="/" className="item">
             Home
           </Link>
