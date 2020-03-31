@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 import MOT from "../apis/MOT";
-import AuthContext from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 function SignUp() {
   const context = useContext(AuthContext);

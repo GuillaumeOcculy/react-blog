@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
-import AuthContext from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Navbar() {
   const context = useContext(AuthContext);
 
   function handleLogout() {
-    context.removeToken();
+    context.removeAuthToken();
     return <Redirect to="/" push={true} />;
   }
 

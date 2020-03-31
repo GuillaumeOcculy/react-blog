@@ -4,27 +4,12 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import AuthContext from "./contexts/AuthContext";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 
 function App() {
-  const token = localStorage.getItem("token");
-  const [authToken, setAuthToken] = useState(token);
-
-  function setToken(data) {
-    localStorage.setItem("token", data);
-    setAuthToken(data);
-  }
-
-  function removeToken(data) {
-    localStorage.setItem("token", data);
-    setAuthToken(data);
-  }
-
   return (
-    <AuthContext.Provider
-      value={{ authToken, setAuthToken: setToken, removeToken: removeToken }}
-    >
+    <AuthContextProvider>
       <Router>
         <Navbar />
 
@@ -48,7 +33,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </AuthContext.Provider>
+    </AuthContextProvider>
   );
 }
 
