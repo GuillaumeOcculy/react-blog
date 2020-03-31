@@ -26,7 +26,7 @@ function SignIn() {
           }
         })
         .catch(function(error) {
-          //   alert(JSON.stringify(error.response.data.errors));
+          alert(JSON.stringify(error.response.data.errors));
         })
         .finally(function() {
           console.log("finally");

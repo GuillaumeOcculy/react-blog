@@ -7,7 +7,7 @@ function Navbar() {
 
   function handleLogout() {
     context.removeAuthToken();
-    return <Redirect to="/" push={true} />;
+    return <Redirect to="/" />;
   }
 
   function renderLogout() {

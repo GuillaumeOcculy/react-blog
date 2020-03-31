@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import MOT from "../apis/MOT";
 
 const AuthContext = createContext();
 
@@ -9,6 +10,7 @@ function AuthContextProvider(props) {
   function setAuthToken(data) {
     localStorage.setItem("token", data);
     setToken(data);
+    MOT.defaults.headers.common["Authorization"] = `Bearer ${data}`;
   }
 
   function removeAuthToken() {
