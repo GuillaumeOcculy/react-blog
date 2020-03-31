@@ -5,22 +5,21 @@ import { Redirect } from "react-router-dom";
 import MOT from "../apis/MOT";
 import AuthContext from "../contexts/AuthContext";
 
-function SignUp() {
+function SignIn() {
   const context = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: ""
     },
     validationSchema: validate,
     onSubmit: values => {
-      MOT.post("/users", values)
+      MOT.post("/auth", values)
         .then(function(response) {
-          if (response.status === 201) {
+          if (response.status === 200) {
             const token = response.data.data.attributes.token;
+            console.log(response);
             context.setAuthToken(token);
           } else {
             console.log(response);
@@ -42,51 +41,9 @@ function SignUp() {
   return (
     <div className="ui two column centered grid">
       <div className="column">
-        <h1 style={{ textAlign: "center" }}>Sign Up</h1>
+        <h1 style={{ textAlign: "center" }}>Sign In</h1>
 
         <form className="ui form" onSubmit={formik.handleSubmit}>
-          <div
-            className={`field ${
-              formik.touched.firstName && formik.errors.firstName
-                ? "error"
-                : null
-            }`}
-          >
-            <label>First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              id="firstName"
-              placeholder="First Name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <label>{formik.errors.firstName}</label>
-            ) : null}
-          </div>
-
-          <div
-            className={`field ${
-              formik.touched.lastName && formik.errors.lastName ? "error" : null
-            }`}
-          >
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="Last Name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.lastName}
-            />
-            {formik.touched.lastName && formik.errors.lastName ? (
-              <label>{formik.errors.lastName}</label>
-            ) : null}
-          </div>
-
           <div
             className={`field ${
               formik.touched.email && formik.errors.email ? "error" : null
@@ -128,7 +85,7 @@ function SignUp() {
           </div>
 
           <button className="ui teal button" type="submit">
-            Sign Up
+            Sign In
           </button>
         </form>
       </div>
@@ -137,12 +94,10 @@ function SignUp() {
 }
 
 const validate = Yup.object({
-  //   firstName: Yup.string().required("Required"),
-  //   lastName: Yup.string().required("Required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Required"),
   password: Yup.string().required("Required")
 });
 
-export default SignUp;
+export default SignIn;
