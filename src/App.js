@@ -16,8 +16,15 @@ function App() {
     setAuthToken(data);
   }
 
+  function removeToken(data) {
+    localStorage.setItem("token", data);
+    setAuthToken(data);
+  }
+
   return (
-    <AuthContext.Provider value={{ authToken, setAuthToken: setToken }}>
+    <AuthContext.Provider
+      value={{ authToken, setAuthToken: setToken, removeToken: removeToken }}
+    >
       <Router>
         <Navbar />
 
