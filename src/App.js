@@ -23,15 +23,15 @@ function App() {
 
       <div className="ui container">
         <Switch>
-          <Route path="/about">
+          <Route exact path="/about">
             <About />
           </Route>
 
-          <Route path="/signup">
+          <Route exact path="/signup">
             <SignUp />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <Home />
           </Route>
         </Switch>

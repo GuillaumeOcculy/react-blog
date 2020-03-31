@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import _ from "lodash";
+import MOT from "../apis/MOT";
 
 function SignUp() {
   const formik = useFormik({
@@ -13,7 +13,19 @@ function SignUp() {
     },
     validationSchema: validate,
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      MOT.post("/users", values)
+        .then(function(response) {
+          if (response.status === 201) {
+            const token = response.data.data.attributes.token;
+            localStorage.setItem("token", token);
+          }
+        })
+        .catch(function(error) {
+          alert(JSON.stringify(error.response.data.errors));
+        })
+        .finally(function() {
+          console.log("finally");
+        });
     }
   });
 
@@ -115,20 +127,12 @@ function SignUp() {
 }
 
 const validate = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
+  //   firstName: Yup.string().required("Required"),
+  //   lastName: Yup.string().required("Required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Required"),
   password: Yup.string().required("Required")
 });
-
-function renderError(attribute) {
-  return (
-    <div className="ui error message">
-      <p>{attribute}</p>
-    </div>
-  );
-}
 
 export default SignUp;
