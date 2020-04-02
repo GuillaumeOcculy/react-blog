@@ -15,7 +15,9 @@ mot.interceptors.response.use(
   },
   function(error) {
     if (error.response.status === 401) {
+      localStorage.removeItem("token");
       window.location.href = "/signin";
+      return;
       // https://github.com/axios/axios/issues/690#issuecomment-278372400
     }
 
