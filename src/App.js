@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import Post from "./pages/Post";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 
@@ -25,6 +26,10 @@ function App() {
 
             <Route exact path="/signin">
               <SignIn />
+            </Route>
+
+            <Route exact path="/posts/:post_id">
+              <Post />
             </Route>
 
             <Route exact path="/">

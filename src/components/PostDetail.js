@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./PostDetail.css";
 import Text from "./utils/Text";
 
@@ -14,7 +15,12 @@ function PostDetail({ post, user }) {
     <div className="ui card">
       <div className="content">
         {renderUser()}
-        <div className="meta">{created_at}</div>
+
+        <div className="meta">
+          <Link to={`/posts/${post.id}`} className="item">
+            {created_at}
+          </Link>
+        </div>
         <div className="description">
           <p>
             <Text text={body} />
