@@ -4,7 +4,7 @@ import "./PostDetail.css";
 import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
 
-function PostDetail({ post, user }) {
+function PostDetail({ post, user, likedUsers }) {
   const { body, created_at } = post.attributes;
 
   function renderUser() {
@@ -12,6 +12,7 @@ function PostDetail({ post, user }) {
       return user.attributes.email;
     }
   }
+
   return (
     <div className="ui card">
       <div className="content">
@@ -28,7 +29,7 @@ function PostDetail({ post, user }) {
       <div className="content">
         <span className="right floated">
           <i className="heart outline like icon"></i>
-          17 likes
+          {likedUsers.length} likes
         </span>
         <i className="comment icon"></i>3 comments
       </div>
