@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./PostDetail.css";
+import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
 
 function PostDetail({ post, user }) {
@@ -8,23 +9,33 @@ function PostDetail({ post, user }) {
 
   function renderUser() {
     if (user) {
-      return <div className="header">{user.attributes.email}</div>;
+      return user.attributes.email;
     }
   }
   return (
     <div className="ui card">
       <div className="content">
-        {renderUser()}
-
-        <div className="meta">
+        <div className="right floated meta">
           <Link to={`/posts/${post.id}`} className="item">
             {created_at}
           </Link>
         </div>
-        <div className="description">
-          <p>
-            <Text text={body} />
-          </p>
+        <img className="ui avatar image" src={avatar} /> {renderUser()}
+      </div>
+      <div className="description">
+        <Text text={body} />
+      </div>
+      <div className="content">
+        <span className="right floated">
+          <i className="heart outline like icon"></i>
+          17 likes
+        </span>
+        <i className="comment icon"></i>3 comments
+      </div>
+      <div className="extra content">
+        <div className="ui large transparent left icon input">
+          <i className="heart outline icon"></i>
+          <input type="text" placeholder="Add Comment..." />
         </div>
       </div>
     </div>
