@@ -4,12 +4,12 @@ import "./PostDetail.css";
 import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
 
-function PostDetail({ post, user, likedUsers }) {
+function PostDetail({ post, creator, usersLikedPost }) {
   const { body, created_at } = post.attributes;
 
   function renderUser() {
-    if (user) {
-      return user.attributes.email;
+    if (creator) {
+      return creator.attributes.email;
     }
   }
 
@@ -21,7 +21,7 @@ function PostDetail({ post, user, likedUsers }) {
             {created_at}
           </Link>
         </div>
-        <img className="ui avatar image" src={avatar} /> {renderUser()}
+        <img className="ui avatar image" src={avatar} alt="" /> {renderUser()}
       </div>
       <div className="description">
         <Text text={body} />
@@ -29,7 +29,7 @@ function PostDetail({ post, user, likedUsers }) {
       <div className="content">
         <span className="right floated">
           <i className="heart outline like icon"></i>
-          {likedUsers.length} likes
+          {usersLikedPost.length} likes
         </span>
         <i className="comment icon"></i>3 comments
       </div>

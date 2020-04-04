@@ -5,9 +5,9 @@ import MOT from "./../apis/MOT";
 
 function Home() {
   const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [includes, setIncludes] = useState([]);
 
-  const addToPosts = post => {
+  const addToPosts = (post) => {
     const newTodos = [...posts];
     newTodos.unshift(post);
     setPosts(newTodos);
@@ -16,11 +16,10 @@ function Home() {
   async function getPosts() {
     const response = await MOT.get("/posts");
     const { data, included } = response.data;
-    const posts = data.filter(element => element.type === "post");
-    const users = included.filter(element => element.type === "user");
+    const posts = data.filter((element) => element.type === "post");
 
+    setIncludes(included);
     setPosts(posts);
-    setUsers(users);
   }
 
   useEffect(() => {
@@ -30,7 +29,7 @@ function Home() {
   return (
     <div>
       {<PostCreate addToPosts={addToPosts} />}
-      {<PostList posts={posts} users={users} />}
+      {<PostList posts={posts} includes={includes} />}
     </div>
   );
 }

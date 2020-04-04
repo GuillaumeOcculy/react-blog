@@ -1,41 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import MOT from "./../apis/MOT";
 import PostDetail from "./../components/PostDetail";
-import _ from "lodash";
+import { PostContext } from "../contexts/PostContext";
+
 function Post() {
+  const context = useContext(PostContext);
+
   let { post_id } = useParams();
   const [post, setPost] = useState();
   const [user, setUser] = useState();
-  const [likedUsers, setUniqLikedUsers] = useState([]);
+  const [usersLikedPost, setUsersLikedPost] = useState([]);
 
   async function getPost() {
     const response = await MOT.get(`/posts/${post_id}`);
     const { data, included } = response.data;
 
     const userId = data.relationships.user.data.id;
-    const likes = included.filter(
-      (element) =>
-        element.type === "like" && element.attributes.likeable_type === "Post"
-    );
-
-    const likedUserIds = likes.map(
-      (element) => element.relationships.user.data.id
-    );
-
-    const likedUsers = included.filter(
-      (element) => element.type === "user" && likedUserIds.includes(element.id)
-    );
-
-    const uniqLikedUsers = _.uniqBy(likedUsers, "id");
-
     const creator = included.find(
       (element) => element.id === userId && element.type === "user"
     );
 
+    const usersLikedPost = context.getUsersLikedPost(data, included);
+
     setPost(data);
     setUser(creator);
-    setUniqLikedUsers(uniqLikedUsers);
+    setUsersLikedPost(usersLikedPost);
   }
 
   useEffect(() => {
@@ -44,7 +34,13 @@ function Post() {
 
   function renderPost() {
     if (post) {
-      return <PostDetail post={post} user={user} likedUsers={likedUsers} />;
+      return (
+        <PostDetail
+          post={post}
+          creator={user}
+          usersLikedPost={usersLikedPost}
+        />
+      );
     }
 
     return null;
