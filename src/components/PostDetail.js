@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./PostDetail.css";
 import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
+import MOT from "./../apis/MOT";
 
-function PostDetail({ post, creator }) {
+function PostDetail(props, { creator }) {
+  const [post, setPost] = useState(props.post);
+
   const { body, created_at } = post.attributes;
   const likes = post.relationships.likes.data;
 
@@ -12,6 +15,12 @@ function PostDetail({ post, creator }) {
     if (creator) {
       return creator.attributes.email;
     }
+  }
+
+  async function handleLike() {
+    const response = await MOT.post(`/posts/${post.id}/likes`);
+
+    setPost(response.data.data);
   }
 
   return (
@@ -29,7 +38,7 @@ function PostDetail({ post, creator }) {
       </div>
       <div className="content">
         <span className="right floated">
-          <i className="heart outline like icon"></i>
+          <i className="heart outline like icon" onClick={handleLike}></i>
           {likes.length} likes
         </span>
         <i className="comment icon"></i>3 comments
