@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./PostDetail.css";
 import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
+import PostLikeButton from "./PostLikeButton";
 import MOT from "./../apis/MOT";
 
 function PostDetail(props, { creator }) {
@@ -14,22 +15,6 @@ function PostDetail(props, { creator }) {
   function renderUser() {
     if (creator) {
       return creator.attributes.email;
-    }
-  }
-
-  function renderLikeIcon() {
-    return <i className="heart outline like icon" onClick={handleLike}></i>;
-  }
-
-  function renderUnlikeIcon() {
-    return <i className="heart red like icon" onClick={handleUnlike}></i>;
-  }
-
-  function renderLikeButton() {
-    if (liked_by_current_user) {
-      return renderUnlikeIcon();
-    } else {
-      return renderLikeIcon();
     }
   }
 
@@ -60,7 +45,11 @@ function PostDetail(props, { creator }) {
       </div>
       <div className="content">
         <span className="right floated">
-          {renderLikeButton()}
+          <PostLikeButton
+            handleLike={handleLike}
+            handleUnlike={handleUnlike}
+            liked_by_current_user={liked_by_current_user}
+          />
           {likes.length} likes
         </span>
         <i className="comment icon"></i>3 comments
