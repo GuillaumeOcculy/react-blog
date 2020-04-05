@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Grid, Dropdown } from "semantic-ui-react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Card, Dropdown, Form, Label, Grid } from "semantic-ui-react";
 import Moment from "react-moment";
 import _ from "lodash";
 
@@ -17,6 +19,7 @@ function PostDetail(props) {
 
   const { body, created_at, liked_by_current_user } = post.attributes;
   const likes = post.relationships.likes.data;
+  const comments = post.relationships.comments.data;
 
   function renderUser() {
     if (props.creator) {
@@ -24,6 +27,27 @@ function PostDetail(props) {
       return first_name + " " + last_name;
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      body: "",
+    },
+    validationSchema: validate,
+    onSubmit: (values) => {
+      MOT.post(`/posts/${post.id}/comments`, values)
+        .then(function (response) {
+          if (response.status === 201) {
+            console.log("comment created");
+            setPost(response.data.data);
+          } else {
+            console.log(response);
+          }
+        })
+        .catch(function (error) {
+          console.log(JSON.stringify(error.response));
+        });
+    },
+  });
 
   async function handleLike() {
     const response = await MOT.post(pathLike);
@@ -71,6 +95,7 @@ function PostDetail(props) {
       );
     }
   }
+
   return (
     <Card centered={true} fluid={true}>
       <Card.Content>
@@ -87,7 +112,7 @@ function PostDetail(props) {
       <Card.Content extra>
         <Grid>
           <Grid.Column floated="left" width={2}>
-            0 comments
+            {comments.length} comments
           </Grid.Column>
           <Grid.Column floated="right" width={2}>
             <PostLikeButton
@@ -106,8 +131,34 @@ function PostDetail(props) {
           </Grid.Column>
         </Grid>
       </Card.Content>
+
+      <Card.Content extra>
+        <Form className="ui form" onSubmit={formik.handleSubmit}>
+          <div className={`field ${formik.errors.body ? "error" : null}`}>
+            <Form.Field>
+              <Form.Input
+                id="body"
+                name="body"
+                placeholder="Add Comment..."
+                onChange={formik.handleChange}
+                value={formik.values.body}
+              />
+
+              {formik.touched.body && formik.errors.body ? (
+                <Label pointing prompt>
+                  {formik.errors.body}
+                </Label>
+              ) : null}
+            </Form.Field>
+          </div>
+        </Form>
+      </Card.Content>
     </Card>
   );
 }
+
+const validate = Yup.object({
+  body: Yup.string().required("Required"),
+});
 
 export default PostDetail;
