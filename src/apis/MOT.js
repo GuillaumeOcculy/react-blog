@@ -1,19 +1,25 @@
 import axios from "axios";
 
+const token = localStorage.getItem("token");
+const headers = {
+  "Content-Type": "application/json",
+  accept: "application/json",
+};
+
+if (token) {
+  headers["Authorization"] = `Bearer ${token}`;
+}
+
 const mot = axios.create({
   baseURL: "http://localhost:3000",
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-    "Content-Type": "application/json",
-    accept: "application/json"
-  }
+  headers: headers,
 });
 
 mot.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response;
   },
-  function(error) {
+  function (error) {
     if (error.response.status === 401) {
       localStorage.removeItem("token");
       window.location.href = "/signin";
