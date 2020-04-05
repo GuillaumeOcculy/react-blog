@@ -4,8 +4,9 @@ import "./PostDetail.css";
 import avatar from "./../img/elliot.jpg";
 import Text from "./utils/Text";
 
-function PostDetail({ post, creator, usersLikedPost }) {
+function PostDetail({ post, creator }) {
   const { body, created_at } = post.attributes;
+  const likes = post.relationships.likes.data;
 
   function renderUser() {
     if (creator) {
@@ -29,7 +30,7 @@ function PostDetail({ post, creator, usersLikedPost }) {
       <div className="content">
         <span className="right floated">
           <i className="heart outline like icon"></i>
-          {usersLikedPost.length} likes
+          {likes.length} likes
         </span>
         <i className="comment icon"></i>3 comments
       </div>

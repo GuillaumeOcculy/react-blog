@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import PostDetail from "./PostDetail";
-import { PostContext } from "../contexts/PostContext";
 
 function PostList({ posts, includes }) {
-  const context = useContext(PostContext);
-
   function users() {
     return includes.filter((element) => element.type === "user");
   }
@@ -17,16 +14,9 @@ function PostList({ posts, includes }) {
   }
 
   const list = posts.map((post) => {
-    const usersLikedPost = context.getUsersLikedPost(post, includes);
+    const creator = findCreator(post);
 
-    return (
-      <PostDetail
-        key={post.id}
-        post={post}
-        creator={findCreator(post)}
-        usersLikedPost={usersLikedPost}
-      />
-    );
+    return <PostDetail key={post.id} post={post} creator={creator} />;
   });
 
   return list;
