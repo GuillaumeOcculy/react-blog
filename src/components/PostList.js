@@ -10,8 +10,8 @@ function PostList({ posts, includes }) {
   }
 
   function findCreator(post) {
-    const { id } = post.relationships.user.data;
-    const user = users().find((user) => user.id === id && user.type === "user");
+    const { id, type } = post.relationships.user.data;
+    const user = users().find((user) => user.id === id && user.type === type);
 
     return user;
   }

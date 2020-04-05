@@ -16,9 +16,9 @@ function Post() {
     const response = await MOT.get(`/posts/${post_id}`);
     const { data, included } = response.data;
 
-    const userId = data.relationships.user.data.id;
+    const userData = data.relationships.user.data;
     const creator = included.find(
-      (element) => element.id === userId && element.type === "user"
+      (element) => element.id === userData.id && element.type === userData.type
     );
 
     const usersLikedPost = context.getUsersLikedPost(data, included);
