@@ -13,12 +13,12 @@ function SignUp() {
       firstName: "",
       lastName: "",
       email: "",
-      password: ""
+      password: "",
     },
     validationSchema: validate,
-    onSubmit: values => {
+    onSubmit: (values) => {
       MOT.post("/users", values)
-        .then(function(response) {
+        .then(function (response) {
           if (response.status === 201) {
             const token = response.data.data.attributes.token;
             context.setAuthToken(token);
@@ -26,13 +26,10 @@ function SignUp() {
             console.log(response);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert(JSON.stringify(error.response.data.errors));
-        })
-        .finally(function() {
-          console.log("finally");
         });
-    }
+    },
   });
 
   if (context.authToken) {
@@ -139,10 +136,8 @@ function SignUp() {
 const validate = Yup.object({
   firstName: Yup.string().required("Required"),
   lastName: Yup.string().required("Required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Required"),
-  password: Yup.string().required("Required")
+  email: Yup.string().email("Invalid email address").required("Required"),
+  password: Yup.string().required("Required"),
 });
 
 export default SignUp;

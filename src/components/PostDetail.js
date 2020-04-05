@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./PostDetail.css";
-import avatar from "./../img/elliot.jpg";
+import { Card, Grid } from "semantic-ui-react";
+import Moment from "react-moment";
+
 import Text from "./utils/Text";
 import PostLikeButton from "./PostLikeButton";
 import MOT from "./../apis/MOT";
 
-function PostDetail(props, { creator }) {
+function PostDetail(props) {
   const [post, setPost] = useState(props.post);
 
   const { body, created_at, liked_by_current_user } = post.attributes;
   const likes = post.relationships.likes.data;
 
   function renderUser() {
-    if (creator) {
-      return creator.attributes.email;
+    if (props.creator) {
+      const { first_name, last_name } = props.creator.attributes;
+      return first_name + " " + last_name;
     }
   }
 
@@ -31,36 +33,34 @@ function PostDetail(props, { creator }) {
   }
 
   return (
-    <div className="ui card">
-      <div className="content">
-        <div className="right floated meta">
+    <Card centered={true} fluid={true}>
+      <Card.Content>
+        <Card.Header content={renderUser()}></Card.Header>
+        <Card.Meta>
           <Link to={`/posts/${post.id}`} className="item">
-            {created_at}
+            <Moment fromNow>{created_at}</Moment>
           </Link>
-        </div>
-        <img className="ui avatar image" src={avatar} alt="" /> {renderUser()}
-      </div>
-      <div className="description">
-        <Text text={body} />
-      </div>
-      <div className="content">
-        <span className="right floated">
-          <PostLikeButton
-            handleLike={handleLike}
-            handleUnlike={handleUnlike}
-            liked_by_current_user={liked_by_current_user}
-          />
-          {likes.length} likes
-        </span>
-        <i className="comment icon"></i>3 comments
-      </div>
-      <div className="extra content">
-        <div className="ui large transparent left icon input">
-          <i className="heart outline icon"></i>
-          <input type="text" placeholder="Add Comment..." />
-        </div>
-      </div>
-    </div>
+        </Card.Meta>
+        <Card.Description>
+          <Text text={body} />
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <Grid>
+          <Grid.Column floated="left" width={2}>
+            0 comments
+          </Grid.Column>
+          <Grid.Column floated="right" width={2}>
+            <PostLikeButton
+              handleLike={handleLike}
+              handleUnlike={handleUnlike}
+              liked_by_current_user={liked_by_current_user}
+            />
+            {likes.length} likes
+          </Grid.Column>
+        </Grid>
+      </Card.Content>
+    </Card>
   );
 }
 
