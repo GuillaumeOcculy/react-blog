@@ -6,22 +6,23 @@ import MOT from "../apis/MOT";
 function PostCreate(props) {
   const formik = useFormik({
     initialValues: {
-      body: ""
+      body: "",
     },
     validationSchema: validate,
-    onSubmit: values => {
+    onSubmit: (values) => {
       MOT.post("/posts", values)
-        .then(function(response) {
+        .then(function (response) {
           if (response.status === 201) {
+            formik.resetForm();
             props.addToPosts(response.data.data);
           } else {
             console.log(response);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(JSON.stringify(error.response));
         });
-    }
+    },
   });
 
   return (
@@ -61,7 +62,7 @@ function PostCreate(props) {
 }
 
 const validate = Yup.object({
-  body: Yup.string().required("Required")
+  body: Yup.string().required("Required"),
 });
 
 export default PostCreate;

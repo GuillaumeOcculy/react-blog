@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Card, Dropdown, Form, Label, Grid } from "semantic-ui-react";
+import { Card, Dropdown, Grid } from "semantic-ui-react";
 import Moment from "react-moment";
+import Pluralize from "pluralize";
 import _ from "lodash";
 
+import MOT from "./../apis/MOT";
 import Text from "./utils/Text";
 import PostLikeButton from "./PostLikeButton";
-import MOT from "./../apis/MOT";
+import CommentForm from "./CommentForm";
 
 function PostDetail(props) {
   const [post, setPost] = useState(props.post);
@@ -27,27 +27,6 @@ function PostDetail(props) {
       return first_name + " " + last_name;
     }
   }
-
-  const formik = useFormik({
-    initialValues: {
-      body: "",
-    },
-    validationSchema: validate,
-    onSubmit: (values) => {
-      MOT.post(`/posts/${post.id}/comments`, values)
-        .then(function (response) {
-          if (response.status === 201) {
-            console.log("comment created");
-            setPost(response.data.data);
-          } else {
-            console.log(response);
-          }
-        })
-        .catch(function (error) {
-          console.log(JSON.stringify(error.response));
-        });
-    },
-  });
 
   async function handleLike() {
     const response = await MOT.post(pathLike);
@@ -96,6 +75,10 @@ function PostDetail(props) {
     }
   }
 
+  function handleCommentSubmitSuccess(post) {
+    setPost(post);
+  }
+
   return (
     <Card centered={true} fluid={true}>
       <Card.Content>
@@ -112,7 +95,7 @@ function PostDetail(props) {
       <Card.Content extra>
         <Grid>
           <Grid.Column floated="left" width={2}>
-            {comments.length} comments
+            {Pluralize("comment", comments.length, true)}
           </Grid.Column>
           <Grid.Column floated="right" width={2}>
             <PostLikeButton
@@ -122,7 +105,7 @@ function PostDetail(props) {
             />
 
             <Dropdown
-              text={`${likes.length} likes`}
+              text={Pluralize("like", likes.length, true)}
               loading={likesLoading}
               onOpen={handleClickUsersLike}
             >
@@ -133,32 +116,13 @@ function PostDetail(props) {
       </Card.Content>
 
       <Card.Content extra>
-        <Form className="ui form" onSubmit={formik.handleSubmit}>
-          <div className={`field ${formik.errors.body ? "error" : null}`}>
-            <Form.Field>
-              <Form.Input
-                id="body"
-                name="body"
-                placeholder="Add Comment..."
-                onChange={formik.handleChange}
-                value={formik.values.body}
-              />
-
-              {formik.touched.body && formik.errors.body ? (
-                <Label pointing prompt>
-                  {formik.errors.body}
-                </Label>
-              ) : null}
-            </Form.Field>
-          </div>
-        </Form>
+        <CommentForm
+          post={post}
+          handleCommentSubmitSuccess={handleCommentSubmitSuccess}
+        />
       </Card.Content>
     </Card>
   );
 }
-
-const validate = Yup.object({
-  body: Yup.string().required("Required"),
-});
 
 export default PostDetail;
