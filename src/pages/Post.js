@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import MOT from "./../apis/MOT";
+import { Loader } from "semantic-ui-react";
+
+import useFetchPostApi from "./../hooks/useFetchPostApi";
 import PostDetail from "./../components/PostDetail";
 
 function Post() {
-  let { post_id } = useParams();
-  const [post, setPost] = useState();
-  const [user, setUser] = useState();
-
-  async function getPost() {
-    const response = await MOT.get(`/posts/${post_id}`);
-    const { data, included } = response.data;
-
-    const userData = data.relationships.user.data;
-    const creator = included.find(
-      (element) => element.id === userData.id && element.type === userData.type
-    );
-
-    setPost(data);
-    setUser(creator);
-  }
-
-  useEffect(() => {
-    getPost();
-  }, []);
+  const { post_id } = useParams();
+  const [{ post, user, isLoading, isError }] = useFetchPostApi(post_id);
 
   function renderPost() {
     if (post) {
@@ -32,7 +16,13 @@ function Post() {
 
     return null;
   }
-  return renderPost();
+
+  return (
+    <Fragment>
+      {isError && <div>Something went wrong ...</div>}
+      {isLoading ? <Loader active inline="centered" /> : renderPost()}
+    </Fragment>
+  );
 }
 
 export default Post;
