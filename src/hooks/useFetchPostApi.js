@@ -1,39 +1,67 @@
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import MOT from "../apis/MOT";
 
+const dataFetchReducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_INIT":
+      return { ...state, isLoading: true, isError: false };
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        post: action.payload.post,
+        user: action.payload.user,
+      };
+    case "FETCH_FAILURE":
+      return { ...state, isLoading: false, isError: true };
+    default:
+      throw new Error();
+  }
+};
+
 const useFetchPostApi = (postId) => {
-  const [post, setPost] = useState();
-  const [user, setUser] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [state, dispatch] = useReducer(dataFetchReducer, {
+    isLoading: false,
+    isError: false,
+    post: null,
+    user: null,
+  });
 
   useEffect(() => {
+    let didCancel = false;
     const fetchPost = async () => {
-      setIsError(false);
-      setIsLoading(true);
+      dispatch({ type: "FETCH_INIT" });
+
       try {
         const response = await MOT.get(`/posts/${postId}`);
-        const { data, included } = response.data;
+        if (!didCancel) {
+          const { data, included } = response.data;
 
-        const userData = data.relationships.user.data;
-        const creator = included.find(
-          (element) =>
-            element.id === userData.id && element.type === userData.type
-        );
-
-        setPost(data);
-        setUser(creator);
+          const userData = data.relationships.user.data;
+          const creator = included.find(
+            (element) =>
+              element.id === userData.id && element.type === userData.type
+          );
+          dispatch({
+            type: "FETCH_SUCCESS",
+            payload: { post: data, user: creator },
+          });
+        }
       } catch (error) {
-        setIsError(true);
+        if (!didCancel) {
+          dispatch({ type: "FETCH_FAILURE" });
+        }
       }
-
-      setIsLoading(false);
     };
 
     fetchPost();
+    return () => {
+      didCancel = true;
+    };
   }, [postId]);
 
-  return [{ post, user, isLoading, isError }];
+  return [state];
 };
 
 export default useFetchPostApi;
