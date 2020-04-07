@@ -11,6 +11,7 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
 import usePost from "./../hooks/usePost";
+import PostLikedUserList from "./PostLikedUserList";
 
 function PostDetail(props) {
   const [
@@ -58,7 +59,7 @@ function PostDetail(props) {
         <Dropdown.Menu>
           <Dropdown.Header icon="users" content="Users" />
           <Dropdown.Divider />
-          {usersLikedPost}
+          <PostLikedUserList users={usersLikedPost} />
         </Dropdown.Menu>
       );
     }

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Dropdown } from "semantic-ui-react";
+import { useState } from "react";
 import MOT from "../apis/MOT";
 
 const useFetchPostApi = (postProps) => {
@@ -34,17 +33,7 @@ const useFetchPostApi = (postProps) => {
       (element) => element.type === "user"
     );
 
-    const list = usersLikedPost.map((user) => {
-      const { first_name, last_name } = user.attributes;
-
-      return (
-        <Dropdown.Item key={user.id}>
-          {first_name + " " + last_name}
-        </Dropdown.Item>
-      );
-    });
-
-    setUsersLikedPost(list);
+    setUsersLikedPost(usersLikedPost);
     setLikesLoading(false);
   }
 
