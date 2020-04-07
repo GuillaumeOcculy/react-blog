@@ -81,7 +81,12 @@ function PostDetail(props) {
         <Card.Content extra>
           <Grid>
             <Grid.Column floated="left" width={2}>
-              <span onClick={handleClickUsersComment}>
+              <span
+                onClick={handleClickUsersComment}
+                style={{
+                  cursor: `${_.isEmpty(commentList) ? null : "pointer"}`,
+                }}
+              >
                 {Pluralize("comment", commentList.length, true)}
               </span>
             </Grid.Column>
@@ -93,6 +98,7 @@ function PostDetail(props) {
               />
 
               <Dropdown
+                disabled={_.isEmpty(likes)}
                 text={Pluralize("like", likes.length, true)}
                 loading={likesLoading}
                 onOpen={handleClickUsersLike}

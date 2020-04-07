@@ -8,6 +8,7 @@ const useFetchPostApi = (postProps) => {
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [comments, setComments] = useState([]);
   const [usersCommentedPost, setUsersCommentedPost] = useState([]);
+  const [commentsOpened, setCommentsOpened] = useState(false);
 
   const pathLikes = `/posts/${post.id}/likes`;
   const pathComments = `/posts/${post.id}/comments`;
@@ -38,6 +39,10 @@ const useFetchPostApi = (postProps) => {
   }
 
   async function handleClickUsersComment() {
+    if (commentsOpened) {
+      return null;
+    }
+
     setCommentsLoading(true);
     const response = await MOT.get(pathComments);
     const { data, included } = response.data;
@@ -49,6 +54,7 @@ const useFetchPostApi = (postProps) => {
     setComments(data);
     setUsersCommentedPost(usersCommentedPost);
     setCommentsLoading(false);
+    setCommentsOpened(true);
   }
 
   return [
