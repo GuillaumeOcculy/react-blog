@@ -1,26 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Dropdown, Grid, Loader } from "semantic-ui-react";
 import Moment from "react-moment";
 import Pluralize from "pluralize";
 import _ from "lodash";
 
-import MOT from "./../apis/MOT";
 import Text from "./utils/Text";
 import PostLikeButton from "./PostLikeButton";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
-function PostDetail(props) {
-  const [post, setPost] = useState(props.post);
-  const [usersLikedPost, setUsersLikedPost] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [likesLoading, setLikesLoading] = useState(false);
-  const [usersCommentedPost, setUsersCommentedPost] = useState([]);
-  const [commentsLoading, setCommentsLoading] = useState(false);
+import usePost from "./../hooks/usePost";
 
-  const pathLikes = `/posts/${post.id}/likes`;
-  const pathComments = `/posts/${post.id}/comments`;
+function PostDetail(props) {
+  const [
+    {
+      post,
+      likesLoading,
+      usersLikedPost,
+      usersCommentedPost,
+      comments,
+      commentsLoading,
+    },
+    {
+      setPost,
+      handleLike,
+      handleUnlike,
+      handleClickUsersComment,
+      handleClickUsersLike,
+    },
+  ] = usePost(props.post);
 
   const { body, created_at, liked_by_current_user } = post.attributes;
   const likes = post.relationships.likes.data;
@@ -31,55 +40,6 @@ function PostDetail(props) {
       const { first_name, last_name } = props.creator.attributes;
       return first_name + " " + last_name;
     }
-  }
-
-  async function handleLike() {
-    const response = await MOT.post(pathLikes);
-
-    setPost(response.data.data);
-  }
-
-  async function handleUnlike() {
-    const response = await MOT.delete(pathLikes);
-
-    setPost(response.data.data);
-  }
-
-  async function handleClickUsersLike() {
-    setLikesLoading(true);
-    const response = await MOT.get(pathLikes);
-    const { included } = response.data;
-
-    const usersLikedPost = included.filter(
-      (element) => element.type === "user"
-    );
-
-    const list = usersLikedPost.map((user) => {
-      const { first_name, last_name } = user.attributes;
-
-      return (
-        <Dropdown.Item key={user.id}>
-          {first_name + " " + last_name}
-        </Dropdown.Item>
-      );
-    });
-
-    setUsersLikedPost(list);
-    setLikesLoading(false);
-  }
-
-  async function handleClickUsersComment() {
-    setCommentsLoading(true);
-    const response = await MOT.get(pathComments);
-    const { data, included } = response.data;
-
-    const usersCommentedPost = included.filter(
-      (element) => element.type === "user"
-    );
-
-    setComments(data);
-    setUsersCommentedPost(usersCommentedPost);
-    setCommentsLoading(false);
   }
 
   function renderCommentedUsers() {
