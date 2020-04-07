@@ -1,5 +1,6 @@
 import React from "react";
 import { Comment, Header } from "semantic-ui-react";
+import _ from "lodash";
 import CommentDetail from "./CommentDetail";
 
 function CommentList({ comments, users }) {
@@ -10,14 +11,22 @@ function CommentList({ comments, users }) {
     return <CommentDetail key={comment.id} comment={comment} user={user} />;
   });
 
-  return (
-    <Comment.Group>
-      <Header as="h3" dividing>
-        Comments
-      </Header>
-      {list}
-    </Comment.Group>
-  );
+  function renderComments() {
+    return (
+      <Comment.Group>
+        <Header as="h3" dividing>
+          Comments
+        </Header>
+        {list}
+      </Comment.Group>
+    );
+  }
+
+  if (!_.isEmpty(users)) {
+    return renderComments();
+  } else {
+    return null;
+  }
 }
 
 export default CommentList;

@@ -43,12 +43,6 @@ function PostDetail(props) {
     }
   }
 
-  function renderCommentedUsers() {
-    if (!_.isEmpty(usersCommentedPost)) {
-      return <CommentList comments={comments} users={usersCommentedPost} />;
-    }
-  }
-
   function renderDropdownMenu() {
     if (commentsLoading) {
       return <Loader active inline="centered" />;
@@ -116,8 +110,7 @@ function PostDetail(props) {
           />
         </Card.Content>
       </Card>
-
-      {renderCommentedUsers()}
+      <CommentList comments={comments} users={usersCommentedPost} />
     </React.Fragment>
   );
 }
