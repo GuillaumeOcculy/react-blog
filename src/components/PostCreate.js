@@ -10,7 +10,12 @@ function PostCreate(props) {
     },
     validationSchema: validate,
     onSubmit: (values) => {
-      MOT.post("/posts", values)
+      const data = new FormData();
+      Object.keys(values).forEach((key) => {
+        data.append(key, values[key]);
+      });
+
+      MOT.post("/posts", data)
         .then(function (response) {
           if (response.status === 201) {
             formik.resetForm();
@@ -46,6 +51,14 @@ function PostCreate(props) {
                 onBlur={formik.handleBlur}
                 value={formik.values.body}
               ></textarea>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={(e) => {
+                  formik.setFieldValue("image", e.currentTarget.files[0]);
+                }}
+              />
             </div>
             {formik.touched.body && formik.errors.body ? (
               <label>{formik.errors.body}</label>

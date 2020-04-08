@@ -5,12 +5,13 @@ import Moment from "react-moment";
 import Pluralize from "pluralize";
 import _ from "lodash";
 
+import usePost from "./../hooks/usePost";
+
 import Text from "./utils/Text";
 import PostLikeButton from "./PostLikeButton";
+import PostImage from "./PostImage";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
-
-import usePost from "./../hooks/usePost";
 import PostLikedUserList from "./PostLikedUserList";
 
 function PostDetail(props) {
@@ -32,7 +33,7 @@ function PostDetail(props) {
     },
   ] = usePost(props.post);
 
-  const { body, created_at, liked_by_current_user } = post.attributes;
+  const { body, created_at, liked_by_current_user, image } = post.attributes;
   const likes = post.relationships.likes.data;
   const commentList = post.relationships.comments.data;
 
@@ -67,6 +68,7 @@ function PostDetail(props) {
   return (
     <React.Fragment>
       <Card centered={true} fluid={true}>
+        <PostImage image={image} />
         <Card.Content>
           <Card.Header content={renderUser()}></Card.Header>
           <Card.Meta>
