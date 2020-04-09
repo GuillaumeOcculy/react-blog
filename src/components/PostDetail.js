@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Dropdown, Grid, Loader } from "semantic-ui-react";
+import { Card, Dropdown, Grid, Icon, Loader } from "semantic-ui-react";
 import Moment from "react-moment";
 import Pluralize from "pluralize";
 import _ from "lodash";
@@ -68,18 +68,21 @@ function PostDetail(props) {
   return (
     <React.Fragment>
       <Card centered={true} fluid={true}>
-        <PostImage image={image} />
         <Card.Content>
-          <Card.Header content={renderUser()}></Card.Header>
-          <Card.Meta>
+          <div className="right floated meta">
             <Link to={`/posts/${post.id}`} className="item">
               <Moment fromNow>{created_at}</Moment>
             </Link>
-          </Card.Meta>
+          </div>
+          <span style={{ fontSize: "20px" }}>{renderUser()}</span>
+        </Card.Content>
+        <PostImage image={image} />
+        <Card.Content>
           <Card.Description>
             <Text text={body} />
           </Card.Description>
         </Card.Content>
+
         <Card.Content extra>
           <Grid>
             <Grid.Column floated="left" width={2}>
@@ -89,6 +92,7 @@ function PostDetail(props) {
                   cursor: `${_.isEmpty(commentList) ? null : "pointer"}`,
                 }}
               >
+                <Icon name="comment" />
                 {Pluralize("comment", commentList.length, true)}
               </span>
             </Grid.Column>
