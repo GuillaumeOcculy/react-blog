@@ -1,20 +1,26 @@
 import React, { useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import { Dropdown } from "semantic-ui-react";
 
 function Navbar() {
   const context = useContext(AuthContext);
 
   function handleLogout() {
     context.removeAuthToken();
+
     return <Redirect to="/" />;
   }
 
   function renderLogout() {
     return (
-      <Link to="/" onClick={handleLogout} className="item">
-        Log out
-      </Link>
+      <Dropdown icon="user" className="item">
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} to="/profile" text="Profile" />
+          <Dropdown.Divider />
+          <Dropdown.Item text="Sign out" onClick={handleLogout} />
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
@@ -40,8 +46,8 @@ function Navbar() {
   }
 
   return (
-    <div className="ui inverted segment">
-      <div className="ui inverted secondary menu container">
+    <div className="ui inverted segment borderless top fixed menu">
+      <div className="ui text container">
         <Link to="/" className="item">
           Home
         </Link>
@@ -49,7 +55,7 @@ function Navbar() {
           About
         </Link>
 
-        {renderLinks()}
+        <div className="right menu">{renderLinks()}</div>
       </div>
     </div>
   );
