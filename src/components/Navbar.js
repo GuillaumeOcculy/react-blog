@@ -46,7 +46,8 @@ function Navbar() {
   }
 
   return (
-    <div className="ui inverted segment borderless top fixed menu">
+    // <div className="ui inverted segment borderless top fixed menu">
+    <div className="ui inverted segment borderless top  menu">
       <div className="ui text container">
         <Link to="/" className="item">
           Home

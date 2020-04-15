@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Post from "./pages/Post";
+import User from "./pages/User";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 
@@ -15,7 +16,8 @@ function App() {
       <Router>
         <Navbar />
 
-        <div className="ui container" style={{ marginTop: "100px" }}>
+        {/* <div className="ui container" style={{ marginTop: "100px" }}> */}
+        <div className="ui container">
           <Switch>
             <Route exact path="/about">
               <About />
@@ -35,6 +37,10 @@ function App() {
 
             <Route exact path="/posts/:post_id">
               <Post />
+            </Route>
+
+            <Route exact path="/users/:user_id">
+              <User />
             </Route>
 
             <Route exact path="/">

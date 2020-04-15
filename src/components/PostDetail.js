@@ -74,7 +74,15 @@ function PostDetail(props) {
               <Moment fromNow>{created_at}</Moment>
             </Link>
           </div>
-          <span style={{ fontSize: "20px" }}>{renderUser()}</span>
+          <div className="left floated meta" style={{ fontSize: "20px" }}>
+            <Link
+              to={`/users/${props.creator.attributes.slug}`}
+              className="item"
+              style={{ textDecoration: "none" }}
+            >
+              {renderUser()}
+            </Link>
+          </div>
         </Card.Content>
         <PostImage image={image} />
         <Card.Content>
