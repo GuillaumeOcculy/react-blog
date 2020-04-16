@@ -1,39 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
 
+import { AuthContext } from "../contexts/AuthContext";
 import useFetchUserApi from "./../hooks/useFetchUserApi";
 import MOT from "../apis/MOT";
 import UserDetail from "./../components/UserDetail";
 import UserFriendshipButton from "./../components/UserFriendshipButton";
 
 function User() {
+  const context = useContext(AuthContext);
+
   const { user_id } = useParams();
   const [{ user, isLoading, isError }] = useFetchUserApi(user_id);
   const [friendshipButtonClicked, setFriendshipButtonClicked] = useState(false);
 
   function renderUser() {
     if (user) {
-      const friendshipStatus = user.attributes.current_user_friendship_status;
-
       return (
         <div>
           <div>
             <UserDetail user={user} />
           </div>
 
-          <div>
-            <UserFriendshipButton
-              status={friendshipStatus}
-              friendshipButtonClicked={friendshipButtonClicked}
-              handleSendFriendRequest={handleSendFriendRequest}
-            />
-          </div>
+          <div>{renderFriendshipButton()}</div>
         </div>
       );
     }
 
     return null;
+  }
+
+  function renderFriendshipButton() {
+    if (user && user.id != context.currentUserId()) {
+      const friendshipStatus = user.attributes.current_user_friendship_status;
+      return (
+        <UserFriendshipButton
+          status={friendshipStatus}
+          friendshipButtonClicked={friendshipButtonClicked}
+          handleSendFriendRequest={handleSendFriendRequest}
+        />
+      );
+    }
   }
 
   const handleSendFriendRequest = async () => {
@@ -43,7 +51,6 @@ function User() {
       .then(function (response) {
         if (response.status === 201) {
           console.log(response);
-          //   const status = response.data.data.attributes.status;
           setFriendshipButtonClicked(true);
         } else {
           console.log(response);

@@ -8,6 +8,8 @@ function UserFriendshipButton({
 }) {
   function renderButton() {
     switch (status) {
+      case "accepted":
+        return null;
       case "pending":
         return <Button disabled>Pending</Button>;
       case "declined":
