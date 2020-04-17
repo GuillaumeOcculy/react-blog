@@ -10,7 +10,7 @@ function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: validate,
@@ -42,21 +42,21 @@ function SignIn() {
         <form className="ui form" onSubmit={formik.handleSubmit}>
           <div
             className={`field ${
-              formik.touched.email && formik.errors.email ? "error" : null
+              formik.touched.username && formik.errors.username ? "error" : null
             }`}
           >
-            <label>Email</label>
+            <label>Username</label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.email}
+              value={formik.values.username}
             />
-            {formik.touched.email && formik.errors.email ? (
-              <label>{formik.errors.email}</label>
+            {formik.touched.username && formik.errors.username ? (
+              <label>{formik.errors.username}</label>
             ) : null}
           </div>
 
@@ -90,7 +90,7 @@ function SignIn() {
 }
 
 const validate = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string().required("Required"),
   password: Yup.string().required("Required"),
 });
 

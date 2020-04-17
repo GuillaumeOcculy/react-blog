@@ -39,8 +39,7 @@ function PostDetail(props) {
 
   function renderUser() {
     if (props.creator) {
-      const { first_name, last_name } = props.creator.attributes;
-      return first_name + " " + last_name;
+      return props.creator.attributes.username;
     }
   }
 

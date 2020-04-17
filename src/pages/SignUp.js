@@ -10,9 +10,7 @@ function SignUp() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: validate,
@@ -44,63 +42,21 @@ function SignUp() {
         <form className="ui form" onSubmit={formik.handleSubmit}>
           <div
             className={`field ${
-              formik.touched.firstName && formik.errors.firstName
-                ? "error"
-                : null
+              formik.touched.username && formik.errors.username ? "error" : null
             }`}
           >
-            <label>First Name</label>
+            <label>Username</label>
             <input
               type="text"
-              name="firstName"
-              id="firstName"
-              placeholder="First Name"
+              name="username"
+              id="username"
+              placeholder="Username"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.firstName}
+              value={formik.values.username}
             />
-            {formik.touched.firstName && formik.errors.firstName ? (
-              <label>{formik.errors.firstName}</label>
-            ) : null}
-          </div>
-
-          <div
-            className={`field ${
-              formik.touched.lastName && formik.errors.lastName ? "error" : null
-            }`}
-          >
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="Last Name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.lastName}
-            />
-            {formik.touched.lastName && formik.errors.lastName ? (
-              <label>{formik.errors.lastName}</label>
-            ) : null}
-          </div>
-
-          <div
-            className={`field ${
-              formik.touched.email && formik.errors.email ? "error" : null
-            }`}
-          >
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email ? (
-              <label>{formik.errors.email}</label>
+            {formik.touched.username && formik.errors.username ? (
+              <label>{formik.errors.username}</label>
             ) : null}
           </div>
 
@@ -134,9 +90,9 @@ function SignUp() {
 }
 
 const validate = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string()
+    .matches(/^[a-z]+$/, "Must only be lower letters")
+    .required("Required"),
   password: Yup.string().required("Required"),
 });
 

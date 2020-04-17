@@ -1,12 +1,10 @@
 import React from "react";
 
 function UserDetail({ user }) {
-  const { first_name, last_name } = user.attributes;
+  const { username } = user.attributes;
   return (
     <div>
-      <h1>
-        {first_name} {last_name}
-      </h1>
+      <h1>{username}</h1>
     </div>
   );
 }
