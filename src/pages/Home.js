@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PostList from "./../components/PostList";
 import PostCreate from "./../components/PostCreate";
-import MOT from "./../apis/MOT";
+import BlogAPI from "./../apis/BlogAPI";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -14,7 +14,7 @@ function Home() {
   };
 
   async function getPosts() {
-    const response = await MOT.get("/posts");
+    const response = await BlogAPI.get("/posts");
     const { data, included } = response.data;
     const posts = data.filter((element) => element.type === "post");
 

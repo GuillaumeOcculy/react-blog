@@ -10,12 +10,12 @@ if (token) {
   headers["Authorization"] = `Bearer ${token}`;
 }
 
-const mot = axios.create({
+const BlogAPI = axios.create({
   baseURL: "http://localhost:3000",
   headers: headers,
 });
 
-mot.interceptors.response.use(
+BlogAPI.interceptors.response.use(
   function (response) {
     return response;
   },
@@ -31,4 +31,4 @@ mot.interceptors.response.use(
   }
 );
 
-export default mot;
+export default BlogAPI;

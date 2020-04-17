@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { Form, Label } from "semantic-ui-react";
 
 import * as Yup from "yup";
-import MOT from "./../apis/MOT";
+import BlogAPI from "./../apis/BlogAPI";
 
 function CommentForm({ post, handleCommentSubmitSuccess }) {
   const validate = Yup.object({
@@ -16,7 +16,7 @@ function CommentForm({ post, handleCommentSubmitSuccess }) {
     },
     validationSchema: validate,
     onSubmit: (values) => {
-      MOT.post(`/posts/${post.id}/comments`, values)
+      BlogAPI.post(`/posts/${post.id}/comments`, values)
         .then(function (response) {
           if (response.status === 201) {
             const post = response.data.data;

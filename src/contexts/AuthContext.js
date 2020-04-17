@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import MOT from "../apis/MOT";
+import BlogAPI from "../apis/BlogAPI";
 import jwt_decode from "jwt-decode";
 
 const AuthContext = createContext();
@@ -11,7 +11,7 @@ function AuthContextProvider(props) {
   function setAuthToken(data) {
     localStorage.setItem("token", data);
     setToken(data);
-    MOT.defaults.headers.common["Authorization"] = `Bearer ${data}`;
+    BlogAPI.defaults.headers.common["Authorization"] = `Bearer ${data}`;
   }
 
   function removeAuthToken() {

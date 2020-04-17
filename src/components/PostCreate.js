@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import MOT from "../apis/MOT";
+import BlogAPI from "../apis/BlogAPI";
 
 function PostCreate(props) {
   const formik = useFormik({
@@ -15,7 +15,7 @@ function PostCreate(props) {
         data.append(key, values[key]);
       });
 
-      MOT.post("/posts", data)
+      BlogAPI.post("/posts", data)
         .then(function (response) {
           if (response.status === 201) {
             formik.resetForm();

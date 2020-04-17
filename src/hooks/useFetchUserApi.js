@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import MOT from "../apis/MOT";
+import BlogAPI from "../apis/BlogAPI";
 
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
@@ -32,7 +32,7 @@ const useFetchUserApi = (userId) => {
       dispatch({ type: "FETCH_INIT" });
 
       try {
-        const response = await MOT.get(`/users/${userId}`);
+        const response = await BlogAPI.get(`/users/${userId}`);
         if (!didCancel) {
           const { data, included } = response.data;
 

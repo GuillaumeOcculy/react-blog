@@ -6,7 +6,7 @@ import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Post from "./pages/Post";
-import User from "./pages/User";
+
 import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 
@@ -40,7 +40,7 @@ function App() {
             </Route>
 
             <Route exact path="/@:user_id">
-              <User />
+              <Profile />
             </Route>
 
             <Route exact path="/">

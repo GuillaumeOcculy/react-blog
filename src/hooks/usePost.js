@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MOT from "../apis/MOT";
+import BlogAPI from "../apis/BlogAPI";
 
 const useFetchPostApi = (postProps) => {
   const [post, setPost] = useState(postProps);
@@ -14,20 +14,20 @@ const useFetchPostApi = (postProps) => {
   const pathComments = `/posts/${post.id}/comments`;
 
   async function handleLike() {
-    const response = await MOT.post(pathLikes);
+    const response = await BlogAPI.post(pathLikes);
 
     setPost(response.data.data);
   }
 
   async function handleUnlike() {
-    const response = await MOT.delete(pathLikes);
+    const response = await BlogAPI.delete(pathLikes);
 
     setPost(response.data.data);
   }
 
   async function handleClickUsersLike() {
     setLikesLoading(true);
-    const response = await MOT.get(pathLikes);
+    const response = await BlogAPI.get(pathLikes);
     const { included } = response.data;
 
     const usersLikedPost = included.filter(
@@ -44,7 +44,7 @@ const useFetchPostApi = (postProps) => {
     }
 
     setCommentsLoading(true);
-    const response = await MOT.get(pathComments);
+    const response = await BlogAPI.get(pathComments);
     const { data, included } = response.data;
 
     const usersCommentedPost = included.filter(

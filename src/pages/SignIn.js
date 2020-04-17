@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
-import MOT from "../apis/MOT";
+import BlogAPI from "../apis/BlogAPI";
 import { AuthContext } from "../contexts/AuthContext";
 
 function SignIn() {
@@ -15,7 +15,7 @@ function SignIn() {
     },
     validationSchema: validate,
     onSubmit: (values) => {
-      MOT.post("/auth", values)
+      BlogAPI.post("/auth", values)
         .then(function (response) {
           if (response.status === 200) {
             const token = response.data.data.attributes.token;
