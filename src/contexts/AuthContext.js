@@ -32,9 +32,22 @@ function AuthContextProvider(props) {
     return id;
   }
 
+  function currentUserUsername() {
+    const decodedToken = decodeToken();
+    const username = decodedToken.username;
+
+    return username;
+  }
+
   return (
     <AuthContext.Provider
-      value={{ authToken: token, setAuthToken, removeAuthToken, currentUserId }}
+      value={{
+        authToken: token,
+        setAuthToken,
+        removeAuthToken,
+        currentUserId,
+        currentUserUsername,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

@@ -75,7 +75,7 @@ function PostDetail(props) {
           </div>
           <div className="left floated meta" style={{ fontSize: "20px" }}>
             <Link
-              to={`/users/${props.creator.attributes.slug}`}
+              to={`/@${props.creator.attributes.username}`}
               className="item"
               style={{ textDecoration: "none" }}
             >

@@ -39,7 +39,7 @@ function App() {
               <Post />
             </Route>
 
-            <Route exact path="/users/:user_id">
+            <Route exact path="/@:user_id">
               <User />
             </Route>
 
