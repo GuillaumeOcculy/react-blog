@@ -5,7 +5,6 @@ import { Dropdown } from "semantic-ui-react";
 
 function Navbar() {
   const context = useContext(AuthContext);
-  const username = context.currentUserUsername();
 
   function handleLogout() {
     context.removeAuthToken();
@@ -14,6 +13,7 @@ function Navbar() {
   }
 
   function renderLogout() {
+    const username = context.currentUserUsername();
     return (
       <Dropdown icon="user" className="item">
         <Dropdown.Menu>
