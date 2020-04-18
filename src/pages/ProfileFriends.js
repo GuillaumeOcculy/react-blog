@@ -16,38 +16,20 @@ const ProfileFriends = () => {
   useEffect(() => {
     async function fetchFriends() {
       const response = await BlogAPI.get(`/users/${username}/friends`);
-      const { data, included } = response.data;
+      const { data } = response.data;
 
-      const accepteds = data.filter(
-        (element) => element.attributes.status === "accepted"
-      );
+      setFriends(data);
+    }
 
-      const requesteds = data.filter(
-        (element) => element.attributes.status === "requested"
-      );
+    async function fetchFriendRequests() {
+      const response = await BlogAPI.get(`/users/${username}/friend_requests`);
+      const { data } = response.data;
 
-      const friendIds = accepteds.map(
-        (accepted) => accepted.attributes.friend_id
-      );
-
-      const requestedIds = requesteds.map(
-        (accepted) => accepted.attributes.friend_id
-      );
-
-      const friends = included.filter(
-        (element) => element.type === "user" && friendIds.includes(element.id)
-      );
-
-      const requestedFriends = included.filter(
-        (element) =>
-          element.type === "user" && requestedIds.includes(element.id)
-      );
-
-      setFriends(friends);
-      setFriendRequests(requestedFriends);
+      setFriendRequests(data);
     }
 
     fetchFriends();
+    fetchFriendRequests();
   }, [friendRequests.length]);
 
   const RenderMenu = () => {
@@ -68,14 +50,10 @@ const ProfileFriends = () => {
 
   const handleAcceptRequest = (e, username) => {
     e.preventDefault();
-    BlogAPI.patch(`/friends/${username}/accept`)
+    BlogAPI.patch(`/friend_requests/${username}/accept`)
       .then(function (response) {
         if (response.status === 200) {
-          const requestUsers = [...friendRequests];
-          const newRequestUsers = requestUsers.filter(
-            (user) => user.attributes.username != username
-          );
-          setFriendRequests(newRequestUsers);
+          setFriendRequests(response.data.data);
         } else {
           console.log(response);
         }
@@ -87,14 +65,10 @@ const ProfileFriends = () => {
 
   const handleDeclineRequest = (e, username) => {
     e.preventDefault();
-    BlogAPI.patch(`/friends/${username}/decline`)
+    BlogAPI.patch(`/friend_requests/${username}/decline`)
       .then(function (response) {
         if (response.status === 200) {
-          const requestUsers = [...friendRequests];
-          const newRequestUsers = requestUsers.filter(
-            (user) => user.attributes.username != username
-          );
-          setFriendRequests(newRequestUsers);
+          setFriendRequests(response.data.data);
         } else {
           console.log(response);
         }
