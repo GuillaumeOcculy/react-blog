@@ -12,8 +12,8 @@ import UserFriendshipButton from "./../components/UserFriendshipButton";
 function Profile() {
   const context = useContext(AuthContext);
 
-  const { user_id } = useParams();
-  const [{ user, isLoading, isError }] = useFetchUserApi(user_id);
+  const { username } = useParams();
+  const [{ user, isLoading, isError }] = useFetchUserApi(username);
   const [friendshipButtonClicked, setFriendshipButtonClicked] = useState(false);
   const isUser = user && user.id === context.currentUserId();
 
@@ -66,7 +66,7 @@ function Profile() {
 
   const handleSendFriendRequest = async () => {
     await BlogAPI.post("/friendships", {
-      friend_id: user_id,
+      friend_id: username,
     })
       .then(function (response) {
         if (response.status === 201) {
