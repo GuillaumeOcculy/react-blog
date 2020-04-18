@@ -48,7 +48,7 @@ const ProfileFriends = () => {
     }
 
     fetchFriends();
-  }, []);
+  }, [friendRequests.length]);
 
   const RenderMenu = () => {
     return (
@@ -66,6 +66,44 @@ const ProfileFriends = () => {
     );
   };
 
+  const handleAcceptRequest = (e, username) => {
+    e.preventDefault();
+    BlogAPI.patch(`/friends/${username}/accept`)
+      .then(function (response) {
+        if (response.status === 200) {
+          const requestUsers = [...friendRequests];
+          const newRequestUsers = requestUsers.filter(
+            (user) => user.attributes.username != username
+          );
+          setFriendRequests(newRequestUsers);
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.response));
+      });
+  };
+
+  const handleDeclineRequest = (e, username) => {
+    e.preventDefault();
+    BlogAPI.patch(`/friends/${username}/decline`)
+      .then(function (response) {
+        if (response.status === 200) {
+          const requestUsers = [...friendRequests];
+          const newRequestUsers = requestUsers.filter(
+            (user) => user.attributes.username != username
+          );
+          setFriendRequests(newRequestUsers);
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.response));
+      });
+  };
+
   return (
     // <Grid centered columns={2}>
     // <Grid.Column>
@@ -75,7 +113,11 @@ const ProfileFriends = () => {
         <Icon name="users" circular />
         <Header.Content>Friends</Header.Content>
       </Header>
-      <ProfileFriendRequestList users={friendRequests} />
+      <ProfileFriendRequestList
+        users={friendRequests}
+        handleAcceptRequest={handleAcceptRequest}
+        handleDeclineRequest={handleDeclineRequest}
+      />
       <ProfileFriendList users={friends} />
     </div>
     // </Grid.Column>

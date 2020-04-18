@@ -66,10 +66,8 @@ function Profile() {
     return null;
   };
 
-  const handleSendFriendRequest = async () => {
-    await BlogAPI.post("/friendships", {
-      friend_id: username,
-    })
+  const handleSendFriendRequest = () => {
+    BlogAPI.post(`/users/${username}/friends`)
       .then(function (response) {
         if (response.status === 201) {
           setFriendshipButtonClicked(true);

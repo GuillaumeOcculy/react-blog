@@ -2,7 +2,11 @@ import React from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-const ProfileFriendRequestDetail = ({ user }) => {
+const ProfileFriendRequestDetail = ({
+  user,
+  handleAcceptRequest,
+  handleDeclineRequest,
+}) => {
   const { username } = user.attributes;
 
   return (
@@ -23,10 +27,18 @@ const ProfileFriendRequestDetail = ({ user }) => {
       </Card.Content>
       <Card.Content extra>
         <div className="ui two buttons">
-          <Button basic color="green">
+          <Button
+            basic
+            color="green"
+            onClick={(e) => handleAcceptRequest(e, username)}
+          >
             Approve
           </Button>
-          <Button basic color="red">
+          <Button
+            basic
+            color="red"
+            onClick={(e) => handleDeclineRequest(e, username)}
+          >
             Decline
           </Button>
         </div>
