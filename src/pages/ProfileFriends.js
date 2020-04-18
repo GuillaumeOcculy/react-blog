@@ -78,6 +78,21 @@ const ProfileFriends = () => {
       });
   };
 
+  const handleUnfriend = (e, username) => {
+    e.preventDefault();
+    BlogAPI.delete(`/friends/${username}`)
+      .then(function (response) {
+        if (response.status === 200) {
+          setFriends(response.data.data);
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.response));
+      });
+  };
+
   return (
     // <Grid centered columns={2}>
     // <Grid.Column>
@@ -92,7 +107,7 @@ const ProfileFriends = () => {
         handleAcceptRequest={handleAcceptRequest}
         handleDeclineRequest={handleDeclineRequest}
       />
-      <ProfileFriendList users={friends} />
+      <ProfileFriendList users={friends} handleUnfriend={handleUnfriend} />
     </div>
     // </Grid.Column>
     // </Grid>

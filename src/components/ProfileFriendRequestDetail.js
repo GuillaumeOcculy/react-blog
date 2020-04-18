@@ -20,7 +20,7 @@ const ProfileFriendRequestDetail = ({
         <Card.Header as={Link} to={`/@${username}`}>
           {username}
         </Card.Header>
-        {/* <Card.Meta>Friends of Elliot</Card.Meta> */}
+
         <Card.Description>
           {username} wants to add you as <strong> friend</strong>
         </Card.Description>
