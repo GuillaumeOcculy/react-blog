@@ -15,7 +15,9 @@ function Profile() {
   const { username } = useParams();
   const [{ user, isLoading, isError }] = useFetchUserApi(username);
   const [friendshipButtonClicked, setFriendshipButtonClicked] = useState(false);
-  const isUser = user && user.id === context.currentUserId();
+  const isUser = context.loggedIn()
+    ? user?.id === context.currentUserId()
+    : false;
 
   const RenderProfile = () => {
     return (

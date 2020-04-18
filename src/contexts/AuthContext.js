@@ -25,6 +25,10 @@ function AuthContextProvider(props) {
     return jwt_decode(localToken);
   }
 
+  function loggedIn() {
+    return localStorage.getItem("token") != null;
+  }
+
   function currentUserId() {
     const decodedToken = decodeToken();
     const id = decodedToken.sub;
@@ -47,6 +51,7 @@ function AuthContextProvider(props) {
         removeAuthToken,
         currentUserId,
         currentUserUsername,
+        loggedIn,
       }}
     >
       {props.children}
