@@ -34,7 +34,7 @@ const useFetchUserApi = (userId) => {
       try {
         const response = await BlogAPI.get(`/users/${userId}`);
         if (!didCancel) {
-          const { data, included } = response.data;
+          const { data } = response.data;
 
           dispatch({
             type: "FETCH_SUCCESS",
