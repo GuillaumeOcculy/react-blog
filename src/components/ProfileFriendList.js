@@ -14,7 +14,7 @@ const ProfileFriendListList = ({ users, handleUnfriend }) => {
     );
   });
 
-  return <Card.Group>{cards}</Card.Group>;
+  return <Card.Group centered>{cards}</Card.Group>;
 };
 
 export default ProfileFriendListList;

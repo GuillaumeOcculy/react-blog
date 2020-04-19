@@ -7,7 +7,7 @@ const ProfileFriendRequestList = ({ users }) => {
     return <ProfileFriendRequestDetail key={user.id} user={user} />;
   });
 
-  return <Card.Group>{cards}</Card.Group>;
+  return <Card.Group centered>{cards}</Card.Group>;
 };
 
 export default ProfileFriendRequestList;

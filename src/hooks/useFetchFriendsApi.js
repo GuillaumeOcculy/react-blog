@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import BlogAPI from "../apis/BlogAPI";
 
-const useFetchFriendsApi = (usernameProps) => {
-  const username = usernameProps;
+const useFetchFriendsApi = (username) => {
   const [friends, setFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
 
