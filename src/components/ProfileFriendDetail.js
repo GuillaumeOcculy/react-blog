@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-const ProfileFriendDetail = ({ user, handleUnfriend }) => {
+import { FriendsContext } from "../contexts/FriendsContext";
+
+const ProfileFriendDetail = ({ user }) => {
+  const context = useContext(FriendsContext);
   const { username } = user.attributes;
 
   return (
@@ -22,7 +25,7 @@ const ProfileFriendDetail = ({ user, handleUnfriend }) => {
           <Button
             basic
             color="red"
-            onClick={(e) => handleUnfriend(e, username)}
+            onClick={(e) => context.handleUnfriend(e, username)}
           >
             Unfriend
           </Button>

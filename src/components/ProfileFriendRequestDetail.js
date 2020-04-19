@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-const ProfileFriendRequestDetail = ({
-  user,
-  handleAcceptRequest,
-  handleDeclineRequest,
-}) => {
+import { FriendsContext } from "../contexts/FriendsContext";
+
+const ProfileFriendRequestDetail = ({ user }) => {
+  const context = useContext(FriendsContext);
   const { username } = user.attributes;
 
   return (
@@ -30,14 +29,14 @@ const ProfileFriendRequestDetail = ({
           <Button
             basic
             color="green"
-            onClick={(e) => handleAcceptRequest(e, username)}
+            onClick={(e) => context.handleAcceptRequest(e, username)}
           >
             Approve
           </Button>
           <Button
             basic
             color="red"
-            onClick={(e) => handleDeclineRequest(e, username)}
+            onClick={(e) => context.handleDeclineRequest(e, username)}
           >
             Decline
           </Button>

@@ -1,36 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Grid, Header, Icon, Menu, Loader } from "semantic-ui-react";
-
-import BlogAPI from "../apis/BlogAPI";
+import { Header, Icon, Menu } from "semantic-ui-react";
 
 import ProfileFriendList from "./../components/ProfileFriendList";
 import ProfileFriendRequestList from "./../components/ProfileFriendRequestList";
+import { FriendsContext } from "../contexts/FriendsContext";
 
 const ProfileFriends = () => {
+  const context = useContext(FriendsContext);
   const { username } = useParams();
-  const [friends, setFriends] = useState([]);
-  const [friendRequests, setFriendRequests] = useState([]);
 
   useEffect(() => {
-    async function fetchFriends() {
-      const response = await BlogAPI.get(`/users/${username}/friends`);
-      const { data } = response.data;
-
-      setFriends(data);
-    }
-
-    async function fetchFriendRequests() {
-      const response = await BlogAPI.get(`/users/${username}/friend_requests`);
-      const { data } = response.data;
-
-      setFriendRequests(data);
-    }
-
-    fetchFriends();
-    fetchFriendRequests();
-  }, [friendRequests.length]);
+    context.setUsername(username);
+  }, [username]);
 
   const RenderMenu = () => {
     return (
@@ -48,69 +31,16 @@ const ProfileFriends = () => {
     );
   };
 
-  const handleAcceptRequest = (e, username) => {
-    e.preventDefault();
-    BlogAPI.patch(`/friend_requests/${username}/accept`)
-      .then(function (response) {
-        if (response.status === 200) {
-          setFriendRequests(response.data.data);
-        } else {
-          console.log(response);
-        }
-      })
-      .catch(function (error) {
-        console.log(JSON.stringify(error.response));
-      });
-  };
-
-  const handleDeclineRequest = (e, username) => {
-    e.preventDefault();
-    BlogAPI.patch(`/friend_requests/${username}/decline`)
-      .then(function (response) {
-        if (response.status === 200) {
-          setFriendRequests(response.data.data);
-        } else {
-          console.log(response);
-        }
-      })
-      .catch(function (error) {
-        console.log(JSON.stringify(error.response));
-      });
-  };
-
-  const handleUnfriend = (e, username) => {
-    e.preventDefault();
-    BlogAPI.delete(`/friends/${username}`)
-      .then(function (response) {
-        if (response.status === 200) {
-          setFriends(response.data.data);
-        } else {
-          console.log(response);
-        }
-      })
-      .catch(function (error) {
-        console.log(JSON.stringify(error.response));
-      });
-  };
-
   return (
-    // <Grid centered columns={2}>
-    // <Grid.Column>
     <div>
       <RenderMenu />
       <Header as="h2" icon textAlign="center">
         <Icon name="users" circular />
         <Header.Content>Friends</Header.Content>
       </Header>
-      <ProfileFriendRequestList
-        users={friendRequests}
-        handleAcceptRequest={handleAcceptRequest}
-        handleDeclineRequest={handleDeclineRequest}
-      />
-      <ProfileFriendList users={friends} handleUnfriend={handleUnfriend} />
+      <ProfileFriendRequestList users={context.friendRequests} />
+      <ProfileFriendList users={context.friends} />
     </div>
-    // </Grid.Column>
-    // </Grid>
   );
 };
 

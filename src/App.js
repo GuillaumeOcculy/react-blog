@@ -10,38 +10,41 @@ import Post from "./pages/Post";
 
 import { AuthContextProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
+import { FriendsContextProvider } from "./contexts/FriendsContext";
 
 function App() {
   return (
     <AuthContextProvider>
-      <Router>
-        <Navbar />
+      <FriendsContextProvider>
+        <Router>
+          <Navbar />
 
-        {/* <div className="ui container" style={{ marginTop: "100px" }}> */}
-        <div className="ui container">
-          <Switch>
-            <Route exact path="/about" component={About} />
+          {/* <div className="ui container" style={{ marginTop: "100px" }}> */}
+          <div className="ui container">
+            <Switch>
+              <Route exact path="/about" component={About} />
 
-            <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/signup" component={SignUp} />
 
-            <Route exact path="/signin" component={SignIn} />
+              <Route exact path="/signin" component={SignIn} />
 
-            <Route exact path="/profile" component={Profile} />
+              <Route exact path="/profile" component={Profile} />
 
-            <Route exact path="/posts/:post_id" component={Post} />
+              <Route exact path="/posts/:post_id" component={Post} />
 
-            <Route exact path="/@:username" component={Profile} />
+              <Route exact path="/@:username" component={Profile} />
 
-            <Route
-              exact
-              path="/@:username/friends"
-              component={ProfileFriends}
-            />
+              <Route
+                exact
+                path="/@:username/friends"
+                component={ProfileFriends}
+              />
 
-            <Route exact path="/" component={Home} />
-          </Switch>
-        </div>
-      </Router>
+              <Route exact path="/" component={Home} />
+            </Switch>
+          </div>
+        </Router>
+      </FriendsContextProvider>
     </AuthContextProvider>
   );
 }
