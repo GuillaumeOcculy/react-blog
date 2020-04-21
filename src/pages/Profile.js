@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Menu, Loader } from "semantic-ui-react";
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -37,10 +36,9 @@ function Profile() {
 
     return (
       <Menu secondary>
-        <Menu.Item name="home" active={true} as={Link} to={`/@${username}`} />
-        {/* <Menu.Item name="posts" as={Link} to={`/@${username}/posts`} /> */}
+        <Menu.Item name="home" active as={Link} to={`/@${username}`} />
         <Menu.Item name="friends" as={Link} to={`/@${username}/friends`} />
-        {/* <Menu.Item name="messages" as={Link} to={`/@${username}/messages`} /> */}
+        <Menu.Item name="messages" as={Link} to={`/@${username}/messages`} />
       </Menu>
     );
   };

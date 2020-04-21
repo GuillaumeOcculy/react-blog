@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Header, Icon, Menu } from "semantic-ui-react";
 
 import ProfileFriendList from "./../components/ProfileFriendList";
@@ -20,14 +19,13 @@ const ProfileFriends = () => {
       <div className="ui two column centered grid">
         <Menu secondary>
           <Menu.Item name="home" as={Link} to={`/@${username}`} />
-          {/* <Menu.Item name="posts" as={Link} to={`/@${username}/posts`} /> */}
           <Menu.Item
             name="friends"
-            active={true}
+            active
             as={Link}
             to={`/@${username}/friends`}
           />
-          {/* <Menu.Item name="messages" as={Link} to={`/@${username}/messages`} /> */}
+          <Menu.Item name="messages" as={Link} to={`/@${username}/messages`} />
         </Menu>
       </div>
     );
