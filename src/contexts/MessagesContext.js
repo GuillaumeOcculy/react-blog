@@ -22,10 +22,30 @@ const MessagesContextProvider = ({ children }) => {
           console.log(JSON.stringify(error.response));
         });
     };
+
     if (activeConversation) {
       fetchMessages(activeConversation);
     }
   }, [activeConversation]);
+
+  const createMessage = (payload) => {
+    BlogAPI.post(`/conversations/${activeConversation}/messages`, payload)
+      .then(function (response) {
+        if (response.status === 201) {
+          const { data, included } = response.data;
+          const newData = [...messages.data, data];
+          const user = included.find((element) => element.type === "user");
+          const newIncluded = [...messages.included, user];
+
+          setMessages({ data: newData, included: newIncluded });
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(JSON.stringify(error.response));
+      });
+  };
 
   return (
     <MessagesContext.Provider
@@ -34,6 +54,7 @@ const MessagesContextProvider = ({ children }) => {
         messages,
         setActiveConversation,
         handleConversationClick,
+        createMessage,
       }}
     >
       {children}

@@ -6,6 +6,7 @@ import { MessagesContext } from "./../contexts/MessagesContext";
 import BlogAPI from "./../apis/BlogAPI";
 import ConversationList from "./../components/ConversationList";
 import MessageList from "./../components/MessageList";
+import MessageForm from "./../components/MessageForm";
 
 const ProfileMessages = () => {
   const messageContext = useContext(MessagesContext);
@@ -58,6 +59,7 @@ const ProfileMessages = () => {
         <Grid.Column stretched width={12}>
           <Segment>
             <MessageList />
+            <MessageForm />
           </Segment>
         </Grid.Column>
       </Grid>
