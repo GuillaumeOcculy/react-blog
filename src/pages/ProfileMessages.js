@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { MessagesContext } from "./../contexts/MessagesContext";
 import BlogAPI from "./../apis/BlogAPI";
 import ConversationList from "./../components/ConversationList";
+import MessageList from "./../components/MessageList";
 
 const ProfileMessages = () => {
   const messageContext = useContext(MessagesContext);
@@ -56,8 +57,7 @@ const ProfileMessages = () => {
 
         <Grid.Column stretched width={12}>
           <Segment>
-            This is an stretched grid column. This segment will always match the
-            tab height
+            <MessageList />
           </Segment>
         </Grid.Column>
       </Grid>

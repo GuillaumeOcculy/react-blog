@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Menu } from "semantic-ui-react";
 
 import { MessagesContext } from "./../contexts/MessagesContext";
