@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Grid, Menu, Segment } from "semantic-ui-react";
+import { Button, Grid, Menu, Segment } from "semantic-ui-react";
 import { Link, useParams } from "react-router-dom";
 
 import { MessagesContext } from "./../contexts/MessagesContext";
@@ -51,6 +51,12 @@ const ProfileMessages = () => {
 
       <Grid>
         <Grid.Column width={4}>
+          <Button
+            as={Link}
+            to={`/@${username}/messages/new`}
+            content="New message"
+            primary
+          />
           <Menu fluid vertical tabular>
             <ConversationList conversations={conversations} />
           </Menu>

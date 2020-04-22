@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import ProfileFriends from "./pages/ProfileFriends";
 import ProfileMessages from "./pages/ProfileMessages";
+import ProfileMessageNew from "./pages/ProfileMessageNew";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Post from "./pages/Post";
@@ -47,6 +48,12 @@ function App() {
                   exact
                   path="/@:username/messages"
                   component={ProfileMessages}
+                />
+
+                <Route
+                  exact
+                  path="/@:username/messages/new"
+                  component={ProfileMessageNew}
                 />
 
                 <Route exact path="/" component={Home} />
