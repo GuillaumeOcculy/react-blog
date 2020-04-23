@@ -20,8 +20,8 @@ const ProfileMessages = () => {
       setConversations(conversations);
 
       if (conversations.length > 0) {
-        const conversationName = conversations[0].attributes.name;
-        messageContext.setActiveConversation(conversationName);
+        const conversationId = conversations[0].id;
+        messageContext.setActiveConversation(conversationId);
       }
     };
 
