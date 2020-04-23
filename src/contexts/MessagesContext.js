@@ -6,7 +6,6 @@ const MessagesContext = createContext();
 const MessagesContextProvider = ({ children }) => {
   const [activeConversation, setActiveConversation] = useState();
   const [messages, setMessages] = useState({ data: [], included: [] });
-  const handleConversationClick = (e, { id }) => setActiveConversation(id);
 
   useEffect(() => {
     const fetchMessages = (conversationName) => {
@@ -53,7 +52,6 @@ const MessagesContextProvider = ({ children }) => {
         activeConversation,
         messages,
         setActiveConversation,
-        handleConversationClick,
         createMessage,
       }}
     >

@@ -13,9 +13,8 @@ const ConversationList = ({ conversations }) => {
       <Menu.Item
         key={conversation.id}
         name={name}
-        id={conversation.id}
         active={messageContext.activeConversation === conversation.id}
-        onClick={messageContext.handleConversationClick}
+        onClick={() => messageContext.setActiveConversation(conversation.id)}
       />
     );
   });

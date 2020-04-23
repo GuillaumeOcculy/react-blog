@@ -6,18 +6,28 @@ import * as Yup from "yup";
 import BlogAPI from "./../apis/BlogAPI";
 
 function ConversationForm({ username }) {
-  const [messageSent, setMessageSent] = useState(false);
+  const [conversationId, setConversationId] = useState();
+
   const validate = Yup.object({
     body: Yup.string().required("Required"),
     friendUsernames: Yup.string().required("Required"),
   });
 
   const RedirectToMessages = () => {
-    if (!messageSent) {
+    if (!conversationId) {
       return null;
     }
-    return <Redirect to={`/@${username}/messages`} />;
+
+    return (
+      <Redirect
+        to={{
+          pathname: `/@${username}/messages`,
+          state: { conversationId: conversationId },
+        }}
+      />
+    );
   };
+
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -30,7 +40,9 @@ function ConversationForm({ username }) {
       BlogAPI.post("/messages", values)
         .then(function (response) {
           if (response.status === 201) {
-            setMessageSent(true);
+            setConversationId(
+              response.data.data.relationships.conversation.data.id
+            );
           } else {
             console.log(response);
           }
