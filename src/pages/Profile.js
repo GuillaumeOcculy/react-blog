@@ -90,7 +90,7 @@ function Profile() {
   };
 
   const handleSendFriendRequest = () => {
-    BlogAPI.post(`/users/${username}/friends`)
+    BlogAPI.post(`/users/${username}/friend_requests`)
       .then(function (response) {
         if (response.status === 201) {
           setFriendshipButtonClicked(true);
