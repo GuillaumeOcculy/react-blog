@@ -1,10 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Facebookish clone
 
-## Available Scripts
+I created this application as an exercise after read the [react documentation](https://reactjs.org/)   (my first react project)
 
-In the project directory, you can run:
+## Informations
 
-### `npm start`
+This application comes with a [Rails application (API)](https://github.com/GuillaumeOcculy/blog_api).
+
+You MUST clone it and follow the instructions first.
+
+There is no security because I'm too lazy to do it for a draft project.
+
+### npm start
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
