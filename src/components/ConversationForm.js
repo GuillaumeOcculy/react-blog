@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { Button, Form, Label } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
@@ -7,6 +7,23 @@ import BlogAPI from "./../apis/BlogAPI";
 
 function ConversationForm({ username }) {
   const [conversationId, setConversationId] = useState();
+  const [friendOptions, setFriendsOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const response = await BlogAPI.get(`/users/${username}/friends`);
+      const friends = response.data.data;
+
+      const options = friends.map((friend) => {
+        const username = friend.attributes.username;
+        return { key: username, value: username, text: username };
+      });
+
+      setFriendsOptions(options);
+    };
+
+    fetchFriends();
+  }, [username]);
 
   const validate = Yup.object({
     body: Yup.string().required("Required"),
@@ -35,8 +52,6 @@ function ConversationForm({ username }) {
     },
     validationSchema: validate,
     onSubmit: (values) => {
-      values.friendUsernames = values.friendUsernames.split(",");
-
       BlogAPI.post("/messages", values)
         .then(function (response) {
           if (response.status === 201) {
@@ -57,14 +72,19 @@ function ConversationForm({ username }) {
     <React.Fragment>
       <Form className="ui form" onSubmit={formik.handleSubmit}>
         <Form.Field>
-          <Form.Input
+          <Form.Dropdown
             id="friendUsernames"
             name="friendUsernames"
-            placeholder="Type your friend's username..."
-            autoComplete="false"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.friendUsernames}
+            clearable
+            fluid
+            multiple
+            search
+            selection
+            options={friendOptions}
+            onChange={(e, data) =>
+              formik.setFieldValue("friendUsernames", data.value)
+            }
+            placeholder="Select your friends"
           />
 
           {formik.touched.friendUsernames && formik.errors.friendUsernames ? (

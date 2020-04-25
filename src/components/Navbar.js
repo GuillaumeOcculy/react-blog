@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
-import _ from "lodash";
 
 import { AuthContext } from "../contexts/AuthContext";
 import SearchUsers from "./SearchUsers";
