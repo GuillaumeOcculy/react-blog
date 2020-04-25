@@ -19,7 +19,15 @@ function PostList({ posts, includes }) {
     return <PostDetail key={post.id} post={post} creator={creator} />;
   });
 
-  return list;
+  return (
+    <div>
+      {posts.length === 0 ? (
+        <p style={{ textAlign: "center" }}>There are no posts created yet.</p>
+      ) : (
+        list
+      )}
+    </div>
+  );
 }
 
 export default PostList;
