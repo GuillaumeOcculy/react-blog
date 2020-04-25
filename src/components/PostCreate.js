@@ -40,7 +40,7 @@ function PostCreate(props) {
             }`}
           >
             <div className="field">
-              <label>Create post</label>
+              <h2>Create post</h2>
               <textarea
                 name="body"
                 id="body"

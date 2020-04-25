@@ -28,8 +28,11 @@ function Home() {
 
   return (
     <div>
-      {<PostCreate addToPosts={addToPosts} />}
-      {<PostList posts={posts} includes={includes} />}
+      <PostCreate addToPosts={addToPosts} />
+      <br />
+      <br />
+      <br />
+      <PostList posts={posts} includes={includes} />
     </div>
   );
 }
