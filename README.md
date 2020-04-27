@@ -11,9 +11,14 @@ You MUST clone it and follow the instructions first.
 There is no security because I'm too lazy to do it for a draft project.
 
 
-### `npm start`
-- Run `npm install` first
-- `npm start`
+# Instructions
+
+1. Clone the [Rails application (API)](https://github.com/GuillaumeOcculy/blog_api) and follow the instructions
+2. Go back to the React application and follow the instructions
+
+### Run the React application
+- Run `npm install`
+- Run `npm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
