@@ -1,18 +1,23 @@
 import axios from "axios";
 
-const token = localStorage.getItem("token");
 const headers = {
   "Content-Type": "application/json",
   accept: "application/json",
 };
 
-if (token) {
-  headers["Authorization"] = `Bearer ${token}`;
-}
-
 const BlogAPI = axios.create({
   baseURL: "http://localhost:3000",
   headers: headers,
+});
+
+BlogAPI.interceptors.request.use(function (config) {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    BlogAPI.defaults.headers.common["Authorization"] = token;
+  }
+
+  return config;
 });
 
 BlogAPI.interceptors.response.use(
