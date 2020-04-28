@@ -38,7 +38,7 @@ function CommentForm({ post, handleCommentSubmitSuccess }) {
       <div className={`field ${formik.errors.body ? "error" : null}`}>
         <Form.Field>
           <Form.Input
-            id="body"
+            id={`comment_${post.id}`}
             name="body"
             placeholder="Add Comment..."
             onChange={formik.handleChange}
