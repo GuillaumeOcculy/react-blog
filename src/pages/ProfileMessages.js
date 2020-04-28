@@ -53,10 +53,14 @@ const ProfileMessages = () => {
         </Grid.Column>
 
         <Grid.Column stretched width={12}>
-          <Segment>
-            <MessageList />
-            <MessageForm />
-          </Segment>
+          {conversations.length === 0 ? (
+            <p>You must create a new message first</p>
+          ) : (
+            <Segment>
+              <MessageList />
+              <MessageForm />
+            </Segment>
+          )}
         </Grid.Column>
       </Grid>
     </div>
