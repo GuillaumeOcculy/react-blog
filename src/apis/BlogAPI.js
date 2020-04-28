@@ -10,15 +10,20 @@ const BlogAPI = axios.create({
   headers: headers,
 });
 
-BlogAPI.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("token");
+BlogAPI.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem("token");
 
-  if (token) {
-    BlogAPI.defaults.headers.common["Authorization"] = token;
+    if (token) {
+      BlogAPI.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
   }
-
-  return config;
-});
+);
 
 BlogAPI.interceptors.response.use(
   function (response) {
