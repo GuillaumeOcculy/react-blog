@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Header, Menu, Loader } from "semantic-ui-react";
+import { useParams } from "react-router-dom";
+import { Header, Loader } from "semantic-ui-react";
 
 import { AuthContext } from "../contexts/AuthContext";
 import useFetchUserApi from "./../hooks/useFetchUserApi";
@@ -8,17 +8,18 @@ import BlogAPI from "../apis/BlogAPI";
 import UserDetail from "./../components/UserDetail";
 import UserFriendshipButton from "./../components/UserFriendshipButton";
 import PostList from "./../components/PostList";
+import ProfileMenu from "./../components/ProfileMenu";
 
 function Profile() {
-  const context = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
   const { username } = useParams();
   const [{ user, isLoading, isError }] = useFetchUserApi(username);
   const [posts, setPosts] = useState([]);
   const [includes, setIncludes] = useState([]);
   const [friendshipButtonClicked, setFriendshipButtonClicked] = useState(false);
-  const isUser = context.loggedIn()
-    ? user?.id === context.currentUserId()
+  const isUser = authContext.loggedIn()
+    ? user?.id === authContext.currentUserId()
     : false;
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function Profile() {
   const RenderProfile = () => {
     return (
       <div>
-        <RenderMenu />
+        <ProfileMenu />
 
         <Header as="h2" icon textAlign="center">
           <Header.Content>
@@ -46,24 +47,6 @@ function Profile() {
         </Header>
 
         <PostList posts={posts} includes={includes} />
-      </div>
-    );
-  };
-
-  const RenderMenu = () => {
-    if (!user) {
-      return null;
-    }
-
-    const { username } = user.attributes;
-
-    return (
-      <div className="ui two column centered grid">
-        <Menu secondary>
-          <Menu.Item name="home" active as={Link} to={`/@${username}`} />
-          <Menu.Item name="friends" as={Link} to={`/@${username}/friends`} />
-          <Menu.Item name="messages" as={Link} to={`/@${username}/messages`} />
-        </Menu>
       </div>
     );
   };

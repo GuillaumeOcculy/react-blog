@@ -8,6 +8,7 @@ import BlogAPI from "./../apis/BlogAPI";
 import ConversationList from "./../components/ConversationList";
 import MessageList from "./../components/MessageList";
 import MessageForm from "./../components/MessageForm";
+import ProfileMenu from "./../components/ProfileMenu";
 
 const ProfileMessages = () => {
   const messageContext = useContext(MessagesContext);
@@ -34,26 +35,9 @@ const ProfileMessages = () => {
     fetchConversations();
   }, [conversations.length]);
 
-  const RenderMenu = () => {
-    return (
-      <div className="ui two column centered grid">
-        <Menu secondary>
-          <Menu.Item name="home" as={Link} to={`/@${username}`} />
-          <Menu.Item name="friends" as={Link} to={`/@${username}/friends`} />
-          <Menu.Item
-            name="messages"
-            active
-            as={Link}
-            to={`/@${username}/messages`}
-          />
-        </Menu>
-      </div>
-    );
-  };
-
   return (
     <div>
-      <RenderMenu />
+      <ProfileMenu />
 
       <Grid>
         <Grid.Column width={4}>
