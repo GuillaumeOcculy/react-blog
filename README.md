@@ -2,6 +2,10 @@
 
 I created this application as an exercise after read the [react documentation](https://reactjs.org/)   (my first react project)
 
+## Demo
+
+![](http://g.recordit.co/0LI9SuuvIt.gif)
+
 ## Informations
 
 This application comes with a [Rails application (API)](https://github.com/GuillaumeOcculy/blog_api).
