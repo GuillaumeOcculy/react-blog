@@ -47,6 +47,7 @@ const SearchUsers = () => {
         <Grid.Column width={6}>
           <Search
             loading={isLoading}
+            placeholder="Search users"
             onResultSelect={handleResultSelect}
             onSearchChange={_.debounce(handleSearchChange, 500, {
               leading: true,
